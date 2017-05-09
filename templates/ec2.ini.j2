@@ -1,0 +1,8 @@
+# Ansible AWS EC2 external inventory script settings
+# For default values refer to https://github.com/ansible/ansible/blob/stable-2.3/contrib/inventory/ec2.ini
+{% for section,sectval in (env_bootstrap_dynamic_inventories | selectattr("config", "equalto", "ec2.ini") | first).params.items() %}
+[{{ section }}]
+{% for param,value in sectval.items() %}
+{{ param }} = {{value}}
+{% endfor %}
+{% endfor %}
