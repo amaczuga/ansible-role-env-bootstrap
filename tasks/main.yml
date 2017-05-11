@@ -1,0 +1,24 @@
+---
+# tasks file for env-bootstrap
+- name: create ansible inventory directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ env_bootstrap_env_dir }}/group_vars"
+    - "{{ env_bootstrap_env_dir }}/host_vars"
+
+- name: download dynamic inventory scripts
+  get_url:
+    url: "{{ item.script }}"
+    dest: "{{ env_bootstrap_env_dir }}"
+    mode: 0755
+  with_items: "{{ env_bootstrap_dynamic_inventories }}"
+  environment: "{{ env_bootstrap_proxy_env }}"
+
+- name: configure dynamic inventory scripts
+  template:
+    src: "{{ item.config }}.j2"
+    dest: "{{ env_bootstrap_env_dir }}/{{ item.config }}"
+  when: item.config is defined
+  with_items: "{{ env_bootstrap_dynamic_inventories }}"

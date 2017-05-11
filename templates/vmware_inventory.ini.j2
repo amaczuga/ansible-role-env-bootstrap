@@ -1,0 +1,10 @@
+# Ansible VMware external inventory script settings
+# For default values refer to https://github.com/ansible/ansible/blob/stable-2.3/contrib/inventory/vmware_inventory.ini
+{% for section,sectval in (env_bootstrap_dynamic_inventories | selectattr("config", "equalto", "vmware_inventory.ini") | first).params.items() %}
+[{{ section }}]
+{% raw %}groupby_patterns = {{ config.annotation.splitlines()[0] }},{{ config.annotation.splitlines()[1] }},{{ config.annotation.splitlines()[2] }},{{ config.annotation.splitlines()[3] }}
+{% endraw %}
+{% for param,value in sectval.items() %}
+{{ param }} = {{value}}
+{% endfor %}
+{% endfor %}

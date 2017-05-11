@@ -1,17 +1,6 @@
-Role Name
-=========
+---
+# defaults file for env-bootstrap
 
-Create ansible inventory-related environment variable structure (http://docs.ansible.com/ansible/intro_inventory.html#splitting-out-host-and-group-specific-data)
-
-Requirements
-------------
-
-None
-
-Role Variables
---------------
-
-```yaml
 # an environment setup directory
 env_bootstrap_env_dir: "environments/default"
 
@@ -45,35 +34,3 @@ env_bootstrap_dynamic_inventories:
         aws_access_key_id: "AXXXXXXXXXXXXXX"
         aws_secret_access_key: "XXXXXXXXXXXXXXXXXXX"
         aws_security_token: "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-```
-
-Dependencies
-------------
-
-none
-
-Example Playbook
-----------------
-
-    - hosts: servers
-      vars:
-         - my_environment: "environments/myenv"
-         - my_scripts:
-           -
-             script: "https://localhost/my_inventory_script.py"
-             config: "my_inventory.ini"
-             params:
-               foo: "bar"
-
-      roles:
-         - { role: amaczuga.env-bootstrap, env_bootstrap_env_dir: "{{ my_environment }}", env_bootstrap_dynamic_inventories: "{{ my_scripts }}" }
-
-License
--------
-
-Apache 2.0
-
-Author Information
-------------------
-
-Andrzej Maczuga
